@@ -7,15 +7,8 @@ from bokeh.models.widgets import Slider, TextInput
 from bokeh.plotting import figure
 import torch
 
-# Set up data
-N = 200
-x = np.linspace(0, 4*np.pi, N)
-y = np.sin(x)
-source = ColumnDataSource(data=dict(x=x, y=y))
-
 
 # Set up plot
-
 def sliders_tab(model, latent_dim=10, data_type='ts'):
 
     def eval_decoder(latent_vector, cls=None):
@@ -31,15 +24,15 @@ def sliders_tab(model, latent_dim=10, data_type='ts'):
     def make_plot(src, cls=''):
 
         if data_type == 'ts':
-            titel = 'Time Series'
+            title = 'Time Series'
             xlabel = 'phase'
             ylabel = 'normalized magnitud'
         if data_type == 'spec':
-            titel = 'Spectra'
+            title = 'Spectra'
             xlabel = r'$\lambda$'
             ylabel = 'normalized flux'
         else:
-            titel = ''
+            title = ''
             xlabel = 'x'
             ylabel = 'y'
 
