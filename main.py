@@ -25,7 +25,6 @@ def load_model(model='VAE', units=32, dropout=20, ksize=11,
            'tcn_units%i_drop%i_ksize%i_nlevels%i_' % (units, dropout, ksize, layers)+
            'ld%i-repeat_lr%s-exp_run_*_final.pt' % (ldim, lr))
     fnames = glob.glob('%s/DeepGenViz/models/%s' % (dirpath, aux))[0]
-    print('****** HOLA ->', fnames)
 
     print('Loading from... \n', fnames)
     vae = VAE_TCN(latent_dim=ldim, seq_len=150,

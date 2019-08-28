@@ -21,7 +21,6 @@ def sliders_tab(model, latent_dim=10, data_type='ts'):
     def eval_decoder(latent_vector, cls=None):
 
         latent_vector = torch.from_numpy(latent_vector.reshape(1,-1))
-        print(latent_vector)
         xhat = model.decoder(latent_vector).detach().numpy()
 
         data = ColumnDataSource(data = {'x': xhat[0,:,0],
@@ -35,7 +34,7 @@ def sliders_tab(model, latent_dim=10, data_type='ts'):
             titel = 'Time Series'
             xlabel = 'phase'
             ylabel = 'normalized magnitud'
-        if data_type == 'ts':
+        if data_type == 'spec':
             titel = 'Spectra'
             xlabel = r'$\lambda$'
             ylabel = 'normalized flux'
@@ -45,7 +44,7 @@ def sliders_tab(model, latent_dim=10, data_type='ts'):
             ylabel = 'y'
 
         # Blank plot with correct labels
-        p = figure(title="VAE %s %s" % (data_type, cls),
+        p = figure(title="VAE %s %s" % (title, cls),
                    plot_height=300,
                    plot_width=600, y_range=(1.1,-0.1),
                    background_fill_color='#efefef',
