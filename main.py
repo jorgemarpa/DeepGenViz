@@ -24,22 +24,16 @@ def load_model(model='VAE', units=32, dropout=20, ksize=11,
     aux = ('%s_eros_snr5_aug_all_nfeat3_foldedT_normT_' % (model)+
            'tcn_units%i_drop%i_ksize%i_nlevels%i_' % (units, dropout, ksize, layers)+
            'ld%i-repeat_lr%s-exp_run_*_final.pt' % (ldim, lr))
-    fnames = glob.glob('%s/models/%s' % (dirpath, aux))
-    print(fnames)
-    if run == 'last':
-        fname = fnames[-1]
-    else:
-        for f in fnames:
-            if run in f:
-                fname = f
-                break
-    print('Loading from... \n', fname)
+    fnames = glob.glob('%s/DeepGenViz/models/%s' % (dirpath, aux))[0]
+    print('****** HOLA ->', fnames)
+
+    print('Loading from... \n', fnames)
     vae = VAE_TCN(latent_dim=ldim, seq_len=150,
                   kernel_size=ksize, hidden_dim=units,
                   nlevels=layers, n_feats=3,
                   dropout=dropout/100, return_norm=True,
                   latent_mode='repeat', con_dim=0)
-    vae.load_state_dict(torch.load(fname, map_location=device))
+    vae.load_state_dict(torch.load(fnames, map_location=device))
     vae.eval()
     vae.to(device)
     print('Is model in cuda? ', next(vae.parameters()).is_cuda)
@@ -56,7 +50,7 @@ tab2 = sliders_tab(vae, latent_dim=10, data_type='ts')
 #tab4 = vae_tab(dataset.meta, dataset.lcs)
 
 # Put all the tabs into one application
-tabs = Tabs(tabs = [tab2])
+tabs = Tabs(tabs=[tab2])
 
 # Put the tabs in the current document for display
 curdoc().add_root(tabs)
