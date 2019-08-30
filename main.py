@@ -1,3 +1,4 @@
+import numpy as np
 # Pandas for data management
 import pandas as pd
 
@@ -10,13 +11,14 @@ from bokeh.io import curdoc
 from bokeh.models.widgets import Tabs
 
 # Each tab is drawn by one script
-# from scripts.scatter import scatter_tab
+from scripts.scatter import scatter_tab
 from scripts.sliders import sliders_tab
 
 from scripts.vae_models import *
 
 dirpath = os.getcwd()
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = "cpu"
 
 # quick function to load one of my VAE models
 def load_model(model='VAE', units=32, dropout=20, ksize=11,
@@ -42,14 +44,20 @@ def load_model(model='VAE', units=32, dropout=20, ksize=11,
 
 vae = load_model(model='VAE', units=64, lr='1e-03', ldim=10)
 
+def load_data():
+    data = np.load('%s/DeepGenViz/data/coords.npy' % dirpath)
+    return data
+
+data = load_data()
+
 # Create each of the tabs
 #tab1 = histogram_tab(dataset.meta)
-#tab1 = scatter_tab(dataset.meta)
+tab1 = scatter_tab(data, latent_dim=10)
 tab2 = sliders_tab(vae, latent_dim=10, data_type='ts')
 #tab4 = vae_tab(dataset.meta, dataset.lcs)
 
 # Put all the tabs into one application
-tabs = Tabs(tabs=[tab2])
+tabs = Tabs(tabs=[tab1, tab2])
 
 # Put the tabs in the current document for display
 curdoc().add_root(tabs)
