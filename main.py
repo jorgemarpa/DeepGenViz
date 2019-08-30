@@ -46,7 +46,8 @@ vae = load_model(model='VAE', units=64, lr='1e-03', ldim=10)
 
 def load_data():
     data = np.load('%s/DeepGenViz/data/coords.npy' % dirpath)
-    return data
+    meta = np.load('%s/DeepGenViz/data/meta.npz' % dirpath)
+    return [data, meta]
 
 data = load_data()
 
