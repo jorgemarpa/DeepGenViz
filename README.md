@@ -16,3 +16,6 @@ Initial ideas:
   * Tabs:
     * tab1: Scatter plot connected to a light-curve/spectra plot
     * tabe: sliders controlling latent-space value input to decoder + reconstruction
+
+
+![badge-img](https://img.shields.io/badge/Made%20at-%23AstroHackWeek-8063d5.svg?style=flat)
